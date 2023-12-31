@@ -1,10 +1,14 @@
-GET http://localhost:3001/api/notes/1000
+GET http://localhost:3001/api/notes
 
 ###
-POST http://localhost:3001/api/notes/ HTTP/1.1
-content-type: application/json
+POST http://localhost:3001/api/notes
+Content-Type: application/json
 
 {
-    "name": "sample",
-    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+    "content": "Leon",
+    "important": true
 }
+
+// don't add an extra , in the end, or bug appears
+###
+GET http://localhost:3001/api/notes/658b03ce896fa5937dd9547c
