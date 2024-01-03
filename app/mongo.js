@@ -1,3 +1,4 @@
+// This page is useless now, since it is copied to model/note.js
 const mongoose = require('mongoose')
 
 if (process.argv.length < 3) {
