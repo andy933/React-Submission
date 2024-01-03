@@ -1,0 +1,19 @@
+get http://localhost:3001/api/persons
+
+###
+delete http://localhost:3001/api/persons/658a97b255c92119f138aa63
+
+###
+get http://localhost:3001/api/persons/658a97b255c92119f138aa63
+
+###
+get http://localhost:3001/info
+
+###
+post http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Leon S Kennedy",
+    "number": "6489-849-489"
+}
