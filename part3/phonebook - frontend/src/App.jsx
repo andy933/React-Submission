@@ -17,37 +17,6 @@ function App() {
     personService.getAll().then(initialPersons => {setPersons(initialPersons)})
   }, [])
 
- /*  const addName = (event) => {
-    event.preventDefault() // cancel the effect of reloading page
-    const NameObject = {
-      name: newName, // no need to add braces {} in here
-      number: newNumber
-    }
-    const exist = persons.filter(person => person.name === NameObject.name)
-    const find = persons.find(person => person.name === NameObject.name)
-    const id = persons.indexOf(find)+1 // getindex to change a specific position data
-    console.log(exist)
-    if (exist.length > 0) {
-      if (window.confirm(newName + ' is already added to phonebook, replace the old number with a new one?')) {
-        personService.update(id, NameObject)
-        .then(returnPersons => {setPersons(persons.map(person => person.id !== id ? person : returnPersons))})
-        .catch(error => {
-          setMessage(`Information of ${newName} has already been removed from server`)  
-          setTimeout(() => {setMessage(null)}, 5000)       
-        })
-      }     
-    }
-    else {
-      personService.create(NameObject)
-      .then(returnPersons => {
-        setPersons(persons.concat(returnPersons)); setMessage(`Added ${newName}`); 
-        setTimeout(() => {setMessage(null)}, 5000)
-      })
-    }
-    setNewName('')
-    setNewNumber('')
-  } */
-
   const addName = (event) => {
     event.preventDefault() // cancel the effect of reloading page
     const NameObject = {
@@ -66,8 +35,9 @@ function App() {
         personService.update(find.id, NameObject)
         .then(returnPersons => {setPersons(persons.map(person => person.id !== find.id ? person : returnPersons))})
         .catch(error => {
-          setMessage(`Information of ${newName} has already been removed from server`)  
-          setTimeout(() => {setMessage(null)}, 5000)       
+          setMessage(`${error.response.data.error}`)  
+          setTimeout(() => {setMessage(null)}, 5000)   
+          console.log(error.response.data)    
         })
       }     
     }
@@ -76,6 +46,11 @@ function App() {
       .then(returnPersons => {
         setPersons(persons.concat(returnPersons)); setMessage(`Added ${newName}`); 
         setTimeout(() => {setMessage(null)}, 5000)
+      })
+      .catch(error => {
+        setMessage(`${error.response.data.error}`)
+        setTimeout(() => {setMessage(null)}, 5000)
+        console.log(error.response.data)
       })
     }
     setNewName('')

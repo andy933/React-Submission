@@ -16,8 +16,6 @@ const custom = morgan(function (tokens, req, res) {
   ].join(' ')
 })
 
-
-
 app.use(cors())
 app.use(express.static('dist'))
 app.use(express.json())
@@ -51,20 +49,14 @@ app.get('/api/persons/:id', (request, response, next) => {
   .catch(error => next(error))
 })
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
   const body = request.body
 
   if (body.name === undefined || body.number === undefined) {
     return response.status(400).json({
-      error: 'name or number cannot be empty'
+      error: 'name or number cannot be missed'
     })
   }
-
-/*   if (persons.filter(p => p.name === body.name).length > 0) {
-    return response.status(400).json({
-      error: 'name must be unique'
-    })
-  } */
 
   const person = new Person({
     name: body.name,
@@ -74,16 +66,14 @@ app.post('/api/persons', (request, response) => {
   person.save().then(savedPerson => {
     response.json(savedPerson)
   })
+  .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
-  const body = request.body
-  const person = {
-    name: body.name,
-    number: body.number
-  }
+  // deconstruct
+  const {name, number} = request.body
 
-  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+  Person.findByIdAndUpdate(request.params.id, {name, number}, { new: true, runValidators: true, contex: 'query' })
   .then(updatedPerson => {
     response.json(updatedPerson)    
   })
@@ -103,13 +93,18 @@ const unknownEndPoint = (request, response) => {
 
 app.use(unknownEndPoint)
 
-const errorHandler = (request, response, next) => {
+// *** missing an error parameter here, then the error message cannot be displayed in the frontend
+const errorHandler = (error, request, response, next) => {
   console.error(error.message)
 
   if (error.name === 'CastError') {
-    return response.status.send({ error: 'malformatted id' })
+    //send will stop the web
+    return response.status(400).send({ error: 'malformatted id' })
   }
-
+  //json will not stop the web
+  else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+  }
   next(error)
 }
 
