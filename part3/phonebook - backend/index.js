@@ -46,7 +46,7 @@ app.get('/api/persons/:id', (request, response, next) => {
       response.status(404).end()
     }
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.post('/api/persons', (request, response, next) => {
@@ -66,25 +66,25 @@ app.post('/api/persons', (request, response, next) => {
   person.save().then(savedPerson => {
     response.json(savedPerson)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
   // deconstruct
-  const {name, number} = request.body
+  const { name, number } = request.body
 
-  Person.findByIdAndUpdate(request.params.id, {name, number}, { new: true, runValidators: true, contex: 'query' })
-  .then(updatedPerson => {
-    response.json(updatedPerson)    
-  })
-  .catch(error => next(error))
+  Person.findByIdAndUpdate(request.params.id, { name, number }, { new: true, runValidators: true, contex: 'query' })
+    .then(updatedPerson => {
+      response.json(updatedPerson)
+    })
+    .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
-  Person.findByIdAndDelete(request.params.id).then(result => {
+  Person.findByIdAndDelete(request.params.id).then(() => {
     response.status(204).end()
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 const unknownEndPoint = (request, response) => {
