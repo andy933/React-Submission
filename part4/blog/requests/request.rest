@@ -1,0 +1,38 @@
+GET http://localhost:3001/api/blogs
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "test",
+    "author": "test",
+    "url": "test",
+    "likes": "04"
+}
+
+###
+PUT http://localhost:3003/api/blogs/1
+Content-Type: application/json
+
+{
+    "id": "1",
+    "title": "frontTitle",
+    "author": "frontAuthor",
+    "url": "frontUrl",
+    "likes": 100
+}
+
+###
+Delete http://localhost:3003/api/blogs/65ad176701f2c5dee5dcb366
+
+// missing
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "test",
+    "author": "test",
+    "url": "test"
+}
