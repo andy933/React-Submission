@@ -39,7 +39,7 @@ function App() {
       title: title,
       author: author,
       url: url,
-      likes: Number(likes)
+      likes: likes
     }
 
     console.log(newBlog)
