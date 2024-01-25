@@ -1,15 +1,4 @@
 const mongoose = require('mongoose')
-mongoose.set('strictQuery', false)
-
-const url = process.env.MONGODB_URI
-console.log('connecting to', url)
-
-mongoose.connect(url).then(() => {
-  console.log('connection to Mongodb success')
-})
-  .catch(error => {
-    console.log('Error:', error.message)
-  })
 
 const blogSchema = new mongoose.Schema({
   title: {
@@ -24,7 +13,7 @@ const blogSchema = new mongoose.Schema({
   },
   url: {
     type: String,
-    minLength: 10,
+    minLength: 5,
     required: true
   },
   likes: {
