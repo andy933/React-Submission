@@ -5,8 +5,8 @@ const express = require('express')
 const blogRoutes = require('./controller/routes')
 const app = express()
 const cors = require('cors')
-
 const mongoose = require('mongoose')
+
 mongoose.set('strictQuery', false)
 
 logger.info('connecting to', config.MongoDB_URI)
