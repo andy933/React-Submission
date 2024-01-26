@@ -13,7 +13,7 @@ const unknownPath = (request, response) => {
 }
 
 const errorHandler = (err, request, response, next) => {
-    logger.error(err.message)
+    logger.error(err.message.replace(':', ':\n').replaceAll('.', '').replaceAll(',', ',\n').concat('.'))
 
     if (err.name === 'CastError') {
         return response.status(400).send({ error: 'malformatted id' })

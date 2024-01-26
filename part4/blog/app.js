@@ -25,7 +25,7 @@ app.use(express.json())
 app.use(middleware.requestLogger)
 app.use('/api/blogs', blogRoutes)
 app.use(middleware.unknownPath)
-
 app.use(middleware.errorHandler)
+
 
 module.exports = app

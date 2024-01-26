@@ -52,9 +52,11 @@ function App() {
       console.log(blogs)
     })
     .catch(error => {
-      setMessage(`${error.response.data.error}`)  
+      const errorMsg = error.response.data.error
+      .replace(':', ':\n').replaceAll('.', '').replaceAll(',', ',\n').concat('.')
+      setMessage(`${errorMsg}`)  
       setTimeout(() => {setMessage(null)}, 5000)   
-      console.log(error.response.data)    
+      console.error(errorMsg)    
     })
 
     setTitle('')
