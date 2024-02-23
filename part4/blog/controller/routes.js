@@ -2,49 +2,49 @@ const express = require('express')
 const Blog = require('../models/blog')
 const blogRoutes = express.Router()
 
-
-blogRoutes.get('/', (request, response) => {
-    Blog
-      .find({})
-        .then(blogs => {
-            response.json(blogs)
-        })
+blogRoutes.get('/', async (request, response) => {
+    const blogs = await Blog.find({})
+    response.json(blogs)
 })
   
-blogRoutes.get('/:id', (request, response, next) => {
-    Blog.findById(request.params.id).then(blog => {
-        if (blog) {
-            response.json(blog)
-        }
-        else {
-            const id = request.path.replace(/^\/api\/blogs\//, '')
-            response.status(404).send(`<h1>There is no such of a resource from id: ${id}!</h1>`)
-        }
-    })
-    .catch(error => next(error))
+blogRoutes.get('/:id', async (request, response) => {
+    const blog = await Blog.findById(request.params.id)
+    if (blog) {
+        response.json(blog)
+    }
+    else {
+        const id = request.params.id
+        response.status(404).send(`<h1>There is no such of a resource from id: ${id}!</h1>`)
+    }
 })
 
-blogRoutes.post('/', (request, response, next) => {
-    const blog = new Blog(request.body)
+blogRoutes.post('/', async (request, response) => {
     const body = request.body
 
-    if (blog.title === undefined || blog.author === undefined || blog.url === undefined || body.likes === undefined) {
-        return response.status(400).send({ error: 'The value for title, author, url, or likes of the blog is missing!' })
-    }
+    const blog = new Blog({
+        title: body.title,
+        author: body.author,
+        url: body.url,
+        likes: body.likes || 0,
+    })
 
-    blog
-        .save()
-        .then(result => {
-            response.status(201).json(result)
-        })
-        .catch(error => next(error))
+    const savedBlog = await blog.save()
+    response.status(201).json(savedBlog)
 })
 
-blogRoutes.delete('/:id', (request, response, next) => {
-Blog.findByIdAndDelete(request.params.id).then(() => {
+blogRoutes.delete('/:id', async (request, response) => {
+    await Blog.findByIdAndDelete(request.params.id)
     response.status(204).end()
 })
-    .catch(error => next(error))
+
+blogRoutes.put('/:id', async (request, response) => {
+    const {title, author, url, likes} = request.body
+
+    const updateBlog = await Blog.findByIdAndUpdate(
+        request.params.id,
+        {title, author, url, likes},
+        {new: true, runValidators: true, context: 'query'})
+    response.json(updateBlog)
 })
 
 module.exports = blogRoutes

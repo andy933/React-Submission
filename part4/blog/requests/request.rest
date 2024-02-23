@@ -12,19 +12,18 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:3003/api/blogs/1
+PUT http://localhost:3003/api/blogs/65d1a7efe30bd971eb7d16d5
 Content-Type: application/json
 
 {
-    "id": "1",
     "title": "frontTitle",
     "author": "frontAuthor",
     "url": "frontUrl",
-    "likes": 100
+    "likes": 1000
 }
 
 ###
-Delete http://localhost:3003/api/blogs/65aa0e3ba38d1e1e7d44d1da
+Delete http://localhost:3003/api/blogs/65d05c6c714e054d8f48fea9
 
 // missing
 ###
