@@ -48,7 +48,7 @@ Content-Type: application/json
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI2NWRlZDkyMDg2Njk5Yzk5NDJiZDY4NWUiLCJpYXQiOjE3MDk0ODE3NTQsImV4cCI6MTcwOTQ4NTM1NH0.CI6QgahWpEbkXit3mGsiIdTHWc4OdCp7ggK7W25D3KA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI2NWRlZDkyMDg2Njk5Yzk5NDJiZDY4NWUiLCJpYXQiOjE3MTAwOTY1MjEsImV4cCI6MTcxMDEwMDEyMX0.wYkP0BhuCUbJ67JGGch8G-ljE95zHwDHA_tFnHwMauY
 
 {
     "url": "token1634",
@@ -61,7 +61,7 @@ PUT http://localhost:3003/api/users/65ded92086699c9942bd685e
 Content-Type: application/json
 
 {
-    "blogs": ["65ded92e86699c9942bd6861"]
+    "blogs": []
 }
 
 ###
@@ -73,5 +73,5 @@ Content-Type: application/json
     "password": "test"
 }
 ###
-DELETE http://localhost:3003/api/blogs/65ded92e86699c9942bd6861
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI2NWRlZDkyMDg2Njk5Yzk5NDJiZDY4NWUiLCJpYXQiOjE3MTAwODczMDMsImV4cCI6MTcxMDA5MDkwM30.RnCGtho0-nWAWpwfTGr97vUnge3WamHmmKymmpWET1c
+DELETE http://localhost:3003/api/blogs/65ee009d0f6a0657ac75c1c0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI2NWRlZDkyMDg2Njk5Yzk5NDJiZDY4NWUiLCJpYXQiOjE3MTAwOTY1MjEsImV4cCI6MTcxMDEwMDEyMX0.wYkP0BhuCUbJ67JGGch8G-ljE95zHwDHA_tFnHwMauY
