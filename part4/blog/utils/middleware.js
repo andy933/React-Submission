@@ -6,7 +6,17 @@ const requestLogger = (req, res, next) => {
     logger.info('Body:  ', req.body)
     logger.info('---')
     next()
-  }
+}
+
+const tokenExtractor = (request, response, next) => {
+    const authorization = request.get('authorization')
+    if (authorization && authorization.startsWith('Bearer ')) {
+        // token is a variable field, which can be renamed to other names like token123
+        request.token = authorization.replace('Bearer ', '')
+        // request["token"] = authorization.replace('Bearer ', '')
+    }
+    next()
+}
 
 const unknownPath = (request, response) => {
     response.status(404).send({ error: 'unknown path' })
@@ -21,7 +31,17 @@ const errorHandler = (err, request, response, next) => {
     else if (err.name === 'ValidationError') {
         return response.status(400).json({ error: err.message })
     }
+    else if (err.name === 'MongoServerError' && err.message.includes('E11000 duplicate key error')) {
+        return response.status(400).json({ error: 'expected `username` to be unique' })
+    }
+    else if (err.name === 'JsonWebTokenError') {
+        return response.status(401).json({ error: 'token missing or invalid' })
+    }
+    else if (err.name === 'TokenExpiredError') {
+        return response.status(401).json({ error: 'token expired' })
+    }
+
     next(err)
 }
 
-module.exports = { requestLogger, unknownPath, errorHandler }
+module.exports = { requestLogger, unknownPath, errorHandler, tokenExtractor }

@@ -12,7 +12,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:3003/api/blogs/65d1a7efe30bd971eb7d16d5
+PUT http://localhost:3003/api/blogs/65ded92e86699c9942bd6861
 Content-Type: application/json
 
 {
@@ -25,13 +25,53 @@ Content-Type: application/json
 ###
 Delete http://localhost:3003/api/blogs/65d05c6c714e054d8f48fea9
 
-// missing
 ###
-POST http://localhost:3003/api/blogs
+POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "title": "test",
-    "author": "test",
-    "url": "test"
+    "username": "mluukkai",
+    "name": "Matti Luukainen",
+    "password": "test"
 }
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "username": "lol",
+    "name": "LoL",
+    "password": "tester"
+}
+
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI2NWRlZDkyMDg2Njk5Yzk5NDJiZDY4NWUiLCJpYXQiOjE3MDk0ODE3NTQsImV4cCI6MTcwOTQ4NTM1NH0.CI6QgahWpEbkXit3mGsiIdTHWc4OdCp7ggK7W25D3KA
+
+{
+    "url": "token1634",
+    "title": "token1634",
+    "author": "token1634"
+}
+
+###
+PUT http://localhost:3003/api/users/65ded92086699c9942bd685e
+Content-Type: application/json
+
+{
+    "blogs": ["65ded92e86699c9942bd6861"]
+}
+
+###
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+    "username": "mluukkai",
+    "password": "test"
+}
+###
+DELETE http://localhost:3003/api/blogs/65ded92e86699c9942bd6861
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI2NWRlZDkyMDg2Njk5Yzk5NDJiZDY4NWUiLCJpYXQiOjE3MTAwODczMDMsImV4cCI6MTcxMDA5MDkwM30.RnCGtho0-nWAWpwfTGr97vUnge3WamHmmKymmpWET1c
