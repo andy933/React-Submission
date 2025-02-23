@@ -8,7 +8,7 @@ test('render title and author', () => {
         author: 'cygames'
     }
 
-    render(<Blog blog={blog} login={[]} />)
+    render(<Blog blog={blog} user={null} />)
 
     const renderTitle = screen.getByText('Granblue Fantasy')
     const renderAuthor = screen.getByText('cygames', {exact: false})
@@ -29,7 +29,7 @@ test('Url and likes are shown when the view button is clicked', async () => {
     }
 
     const container = render(
-        <Blog blog={blog} login={[]} />
+        <Blog blog={blog} />
     ).container
 
     const user = userEvent.setup()
@@ -46,20 +46,22 @@ test('the event handler the component received as props is called twice', async 
         author: 'kira',
         url: 'seed.com',
         likes: 0,
-        id: 998,
-        user: 999
+        id: "998",
+        user: "999"
     }
 
-    const login = {
+    const userInfo = {
+        blogs: [],
+        id: "999",
+        name: 'the latest',
         username: 'new',
         password: 'new',
-        id: 999
     }
 
     const updateLike = vi.fn()
     const user = userEvent.setup()
 
-    render(<Blog blog={blog} updateLike={updateLike} login={[login]} />)
+    render(<Blog blog={blog} user={userInfo} updateLike={updateLike} />)
 
     const likeButton = screen.getByText('like')
     await user.click(likeButton)

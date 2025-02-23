@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 
-const Blog = ({ blog, user, name, updateLike, deleteBlog }) => {
+const Blog = ({ blog, user, updateLike, deleteBlog }) => {
   const [visible, setVisible] = useState(false)
 
   const blogStyle = {
@@ -43,12 +43,11 @@ const Blog = ({ blog, user, name, updateLike, deleteBlog }) => {
       id: blog.id,
       title: blog.title,
       author: blog.author,
-      name: blog.name
     })
   }
 
   var findUser = null
-  if (blog.name === name) {
+  if (blog?.user?.id === user?.id) {
     findUser = blog.user
   }
 

@@ -17,36 +17,25 @@ const App = () => {
   const blogFormRef = useRef()
   const sortedBlog = newBlogs.sort((a, b) => a.likes - b.likes)
   const [login, setLogin] = useState([])
-  const [userBlogs, setUserBlogs] = useState([])
   var loginUser = login.find(log => log?.name === user?.name)
  
   useEffect(() => {
     blogService.getAll().then(blogs => {
-      //console.log('blog', blogs)
       setNewBlogs(blogs)
     })
-  }, [])
-
-  useEffect(() => {
-     loginService.getAll().then(login => {
-      //console.log('user', login)
+    loginService.getAll().then(login => {
       setLogin(login)
     })
-  }, [])
-
-  useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
-      //setLoginUser(login.find(log => log?.name === user?.name))
       blogService.setToken(user.token)
     }
   }, [])
 
   const addBlog = (blogObject) => {
     blogFormRef.current.toggleVisibility()
-    console.log(blogObject)
     blogService.create(blogObject).then(returnedBlog => {
       setNewBlogs(newBlogs.concat(returnedBlog))
       const msg = `a new blog ${blogObject.title} by ${blogObject.author} added`
@@ -54,13 +43,11 @@ const App = () => {
       setTimeout(() => {
         setMessage('')
       }, 5000)
-      console.log(msg, '\n', blogObject, '\n', returnedBlog)
     })
       .catch(error => {
         const errorMsg = error.response.data.error.replace(':', ':\n').replaceAll('.', '').replaceAll(',', ',\n').concat('.')
         setMessage(`${errorMsg}`)
         setTimeout(() => {setMessage(null)}, 5000)
-        console.error(errorMsg)
       })
   }
 
@@ -70,41 +57,8 @@ const App = () => {
 
   const deleteBlog = async (blogObject) => {
     if (window.confirm(`Remove blog ${blogObject.title} by ${blogObject.author}`)) {
-
-     
-      //var debug = newBlogs.filter(b => b.id !== '66a77b082c9d9ffc269c8493')
-  
       await blogService.remove(blogObject.id)
-      .then(() => {setNewBlogs(newBlogs.filter(b => b.id !== blogObject.id))
-        console.log('first then', newBlogs, blogObject.id)})
-      .then(() => setLogin(login.map(l => {
-        console.log('second then', newBlogs)
-        const loginUserBlogs = newBlogs.filter(b => b.name === user.name)
-        console.log(l.id, 'vs', blogObject.user, loginUserBlogs)
-        if (l.id !== blogObject.user) {
-          return l
-        }
-        else {
-          return {
-            blogs: loginUserBlogs,
-            username: l.username,
-            name: l.name,
-            id: l.id,
-            passwordHash: l.passwordHash
-          }
-        }
-      })))
-      setUserBlogs(loginUser?.blogs.filter(blog => blog.id !== blogObject.id))
-      //var blogs = loginUser?.blogs.filter(blog => blog.id !== blogObject.id)
-      //console.log('deleted user blog:', login)
-      for (var i = 0; i < userBlogs.length; i++) {
-        var blogsID = userBlogs[i].id
-        delete userBlogs[i].id
-        userBlogs[i]._id = blogsID
-      }
-      console.log('debug: ', loginUser, userBlogs, newBlogs)
-      
-      await loginService.update(blogObject.user, {blogs: userBlogs})
+      .then(() => {setNewBlogs(newBlogs.filter(b => b.id !== blogObject.id))})
     }
   }
 
@@ -149,7 +103,6 @@ const App = () => {
   const loginForm = () => {
     return (
       <div>
-
         <div>
           <LoginForm
             username={username}
@@ -164,10 +117,6 @@ const App = () => {
     )
   }
 
-  //console.log ('userid', user)
-  //const loginUser = login.find(log => log?.name === user?.name)
-  //console.log('login User:', loginUser)
-
   const blogList = () => {
     return (
       <div>
@@ -181,7 +130,7 @@ const App = () => {
         </Togglable>
 
         {loginUser && sortedBlog.map(blog =>
-          <Blog key={blog.id} blog={blog} user={loginUser} name={user.name} updateLike={updateLike} deleteBlog={deleteBlog} />
+          <Blog key={blog.id} blog={blog} user={loginUser} updateLike={updateLike} deleteBlog={deleteBlog} />
         )}
       </div>
     )}

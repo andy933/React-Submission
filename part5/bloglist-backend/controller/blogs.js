@@ -59,15 +59,23 @@ blogsRouter.delete('/:id', async (request, response) => {
     if (!decodedToken.id) {
         return response.status(401).json({ error: 'token invalid' })
     }
+    const id = request.params.id;
+    const blog = await Blog.findById(id);
+    //const userId = request.user.id.toString();
     const user = await User.findById(decodedToken.id)
-    const blog = await Blog.findById(request.params.id)
-    //const user = request.user
+    const userId = user.id
 
     if (!blog) {
         const id = request.params.id
         response.status(404).send(`<h1>There is no such of a resource from id: ${id}!</h1>`)
     }
-    else if (blog.name === user.name) {
+    else if (blog.user.toString() === userId) {
+        const filterUserBlogs = user.blogs.filter(
+            (b) => b._id.toString() !== id,
+        )
+        user.blogs = filterUserBlogs;
+        await user.save();
+
         await Blog.findByIdAndDelete(request.params.id)
         response.status(204).end()
     }
