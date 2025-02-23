@@ -23,12 +23,6 @@ const Header = () => {
   };
 
   return (
-    /*         <div className="d-flex justify-content-center nav">
-            <div className='px-2'><Link to="/blogs">blogs</Link></div>
-            <div className='px-2'><Link to="/users">users</Link></div>
-            <div className='px-2'>{`${user?.name} logged in `}</div>
-            <div className='px-2'><button onClick={handleLogout}>Logout</button></div>
-        </div> */
     <Navbar collapseOnSelect expand="lg" className="nav">
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
