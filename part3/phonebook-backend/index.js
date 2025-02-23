@@ -21,11 +21,23 @@ app.use(express.static('dist'))
 app.use(express.json())
 app.use(custom)
 
-
 app.get('/api/persons', (request, response) => {
   Person.find({}).then(people => {
     response.json(people)
   })
+})
+
+app.get('/api/persons/:id', (request, response, next) => {
+  Person.findById(request.params.id).then(person => {
+    console.log(request.params.id, Person.findById(request.params.id))
+    if (person) {
+      response.json(person)
+    }
+    else { 
+      response.status(404).end()
+    }
+  })
+  .catch(error => next(error))
 })
 
 app.get('/info', (request, response) => {
@@ -36,8 +48,6 @@ app.get('/info', (request, response) => {
     )
   })
 })
-
-
 
 app.post('/api/persons', (request, response, next) => {
   const body = request.body
