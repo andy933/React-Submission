@@ -1,13 +1,14 @@
-const logger = require('./utils/logger')
-const middleware = require('./utils/middleware')
-const config = require('./utils/config')
 const express = require('express')
 require('express-async-errors')
-const usersRouter = require('./controller/users')
-const blogsRouter = require('./controller/blogs')
-const loginRouter = require('./controller/login')
 const app = express()
 const cors = require('cors')
+const loginRouter = require('./controller/login')
+const blogsRouter = require('./controller/blogs')
+const usersRouter = require('./controller/users')
+const config = require('./utils/config')
+const logger = require('./utils/logger')
+const middleware = require('./utils/middleware')
+
 const mongoose = require('mongoose')
 
 mongoose.set('strictQuery', false)
@@ -25,16 +26,15 @@ app.use(cors())
 app.use(express.static('dist'))
 app.use(express.json())
 app.use(middleware.requestLogger)
-app.use(middleware.tokenExtractor)
 
 
 app.use('/api/users', usersRouter)
 // Putting /api/blog here will cause bug that cannot extract token or user
 app.use('/api/login', loginRouter)
 
-app.use(middleware.tokenExtractor)
-app.use(middleware.userExtractor)
 app.use('/api/blogs', blogsRouter)
+//app.use(middleware.tokenExtractor)
+//app.use(middleware.userExtractor)
 
 
 app.use(middleware.unknownPath)

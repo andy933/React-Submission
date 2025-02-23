@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const User = require('../models/user')
 
+
 usersRouter.get('/', async (request, response) => {
     const users = await User.find({}).populate('blogs', {url: 1, author: 1, title: 1})
     response.json(users)
@@ -37,7 +38,7 @@ usersRouter.post('/', async (request, response) => {
 })
 
 usersRouter.put('/:id', async (request, response) => {
-    const blogs = request.body
+    const {blogs} = request.body
     const user = await User.findById(request.params.id)
 
     if (!user) {
@@ -45,11 +46,11 @@ usersRouter.put('/:id', async (request, response) => {
         response.status(404).send(`<h1>There is no such of a resource from id: ${id}!</h1>`)
     }
     else {
-        const updateBlog = await User.findByIdAndUpdate(
+        const updateUser = await User.findByIdAndUpdate(
             request.params.id,
-            blogs,
+            {blogs},
             {new: true, runValidators: true, context: 'query'})
-        response.json(updateBlog)
+        response.json(updateUser)
     }
 })
 

@@ -9,8 +9,13 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:3003',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        //rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
   },
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: './testSetup.js'
+  }
 })

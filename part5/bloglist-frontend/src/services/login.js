@@ -1,8 +1,9 @@
 import axios from 'axios'
 const baseUrl = '/api/login'
+const userUrl = '/api/users'
 
 const getAll = () => {
-  const request = axios.get(baseUrl)
+  const request = axios.get(userUrl)
   return request.then(response => response.data)
 }
 
@@ -11,4 +12,9 @@ const login = async credentials => {
   return response.data
 }
 
-export default { getAll, login }
+const update = async (id, newObject) => {
+  const response = await axios.put(`${userUrl}/${id}`, newObject)
+  return response.data
+}
+
+export default { getAll, login, update }
