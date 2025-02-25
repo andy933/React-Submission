@@ -1,0 +1,18 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note over browser: User enters text into the text field
+    browser->>browser: Capture entered text
+
+    Note over browser: User clicks the Save button
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: HTTP 200 OK
+    deactivate server
+
+    Note over browser: The browser may update the UI to reflect the new note creation
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate server
+    server-->>browser: Updated note list
+    deactivate server
