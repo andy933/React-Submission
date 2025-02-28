@@ -30,5 +30,5 @@ test('the form calls the event handler it received as props with the right detai
     expect(createBlog.mock.calls[0][0].url).toBe('residentEvil.com')
     expect(createBlog.mock.calls[0][0].likes).toBe(0)
 
-    // finished part 5c. now start cpress exercise
+    // finished part 5c. now start cypress exercise
 })

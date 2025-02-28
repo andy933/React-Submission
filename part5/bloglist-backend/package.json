@@ -9,7 +9,8 @@
     "test": "NODE_ENV=test jest --verbose --runInBand",
     "from": "eslint --save-dev && npx eslint --init",
     "lint": "eslint .",
-    "clear_jest": "jest --clearCache"
+    "clear_jest": "jest --clearCache",
+    "start:test": "NODE_ENV=play nodemon index.js"
   },
   "jest": {
     "testEnvironment": "node",

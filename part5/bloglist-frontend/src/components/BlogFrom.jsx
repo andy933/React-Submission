@@ -5,7 +5,6 @@ const BlogForm = ({ createBlog, user }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
-  const [likes, setLikes] = useState(0)
 
   const addBlog = (event) => {
     event.preventDefault()
@@ -13,12 +12,12 @@ const BlogForm = ({ createBlog, user }) => {
       title: title,
       author: author,
       url: url,
-      likes: likes
+      likes: 0,
+      user: user
     })
     setTitle('')
     setAuthor('')
     setUrl('')
-    setLikes(0)
   }
 
   return (

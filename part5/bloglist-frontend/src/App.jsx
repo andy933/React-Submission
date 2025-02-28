@@ -15,14 +15,10 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
   const blogFormRef = useRef()
-  const sortedBlog = newBlogs.sort((a, b) => a.likes - b.likes)
   const [login, setLogin] = useState([])
   var loginUser = login.find(log => log?.name === user?.name)
- 
+
   useEffect(() => {
-    blogService.getAll().then(blogs => {
-      setNewBlogs(blogs)
-    })
     loginService.getAll().then(login => {
       setLogin(login)
     })
@@ -32,12 +28,21 @@ const App = () => {
       setUser(user)
       blogService.setToken(user.token)
     }
+
+  }, [])
+
+  useEffect(() => {
+    blogService.getAll().then(blogs => {
+      setNewBlogs(blogs.sort((a, b) => b.likes - a.likes))
+    })
+    
   }, [])
 
   const addBlog = (blogObject) => {
     blogFormRef.current.toggleVisibility()
-    blogService.create(blogObject).then(returnedBlog => {
-      setNewBlogs(newBlogs.concat(returnedBlog))
+    console.log(blogObject)
+    blogService.create(blogObject).then((createdObj) => {
+      setNewBlogs(newBlogs.concat({...createdObj, user: loginUser}))
       const msg = `a new blog ${blogObject.title} by ${blogObject.author} added`
       setMessage(msg)
       setTimeout(() => {
@@ -52,7 +57,10 @@ const App = () => {
   }
 
   const updateLike = (blogObject) => {
-    blogService.update(blogObject.id, blogObject).then(updatedBlog => setNewBlogs(newBlogs.map(blog => blog.id !== blogObject.id ? blog : updatedBlog)))
+    blogService.update(blogObject.id, blogObject).then(() => 
+      setNewBlogs(newBlogs
+        .map(blog => blog.id !== blogObject.id ? blog : blogObject)
+        .sort((a, b) => b.likes - a.likes)))
   }
 
   const deleteBlog = async (blogObject) => {
@@ -129,8 +137,8 @@ const App = () => {
           <BlogForm createBlog={addBlog} user={loginUser} />
         </Togglable>
 
-        {loginUser && sortedBlog.map(blog =>
-          <Blog key={blog.id} blog={blog} user={loginUser} updateLike={updateLike} deleteBlog={deleteBlog} />
+        {loginUser && newBlogs.map(blog =>
+          <Blog username={user.username} key={blog.id} blog={blog} user={loginUser} updateLike={updateLike} deleteBlog={deleteBlog} />
         )}
       </div>
     )}
