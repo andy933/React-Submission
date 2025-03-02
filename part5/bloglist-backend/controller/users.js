@@ -54,4 +54,16 @@ usersRouter.put('/:id', async (request, response) => {
     }
 })
 
+usersRouter.delete('/', async (request, response) => {
+    try 
+    {
+        await User.deleteMany({})
+        response.status(204).end()
+    } 
+    catch (error) 
+    {
+        response.status(500).send({ error: 'Serivce errors occur that cannot delete users' })
+    }     
+})
+
 module.exports = usersRouter

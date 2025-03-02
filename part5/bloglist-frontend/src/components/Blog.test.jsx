@@ -8,7 +8,15 @@ test('render title and author', () => {
         author: 'cygames'
     }
 
-    render(<Blog blog={blog} user={null} />)
+    const userInfo = {
+        blogs: [],
+        id: "999",
+        name: 'the latest',
+        username: 'new',
+        password: 'new',
+    }
+
+    render(<Blog blog={blog} user={userInfo} />)
 
     const renderTitle = screen.getByText('Granblue Fantasy')
     const renderAuthor = screen.getByText('cygames', {exact: false})
@@ -28,8 +36,16 @@ test('Url and likes are shown when the view button is clicked', async () => {
         likes: 100
     }
 
+    const userInfo = {
+        blogs: [],
+        id: "999",
+        name: 'the latest',
+        username: 'new',
+        password: 'new',
+    }
+
     const container = render(
-        <Blog blog={blog} />
+        <Blog blog={blog} user={userInfo} />
     ).container
 
     const user = userEvent.setup()

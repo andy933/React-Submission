@@ -99,4 +99,16 @@ blogsRouter.put('/:id', async (request, response) => {
     }
 })
 
+blogsRouter.delete('/', async (request, response) => {
+    try 
+    {
+        await Blog.deleteMany({})
+        response.status(204).end()
+    } 
+    catch (error) 
+    {
+        response.status(500).send({ error: 'Serivce errors occur that cannot delete blogs' })
+    }     
+})
+
 module.exports = blogsRouter
